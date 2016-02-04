@@ -1,6 +1,6 @@
 {
   "name": "gport",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Gets the next available port on your localhost starting from the given port number.",
   "main": "gport.js",
   "scripts": {
