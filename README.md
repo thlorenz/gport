@@ -3,7 +3,7 @@
 Gets the next available port on your localhost starting from the given port number.
 
 ```js
-const getPort = require('../')
+const getPort = require('gport')
 const http = require('http')
 const PORT = 6000
 
@@ -40,7 +40,7 @@ function check(port) {
 </dt>
 <dd>
 <div class="description">
-<p>Quick and dirty way to find an open port number.
+<p>Quick and dirty way to find an open port number on your localhost.
 Super small as it doesn't include any huge dependencies like other port finder libs.
 Inspired by https://gist.github.com/mikeal/1840641</p>
 </div>

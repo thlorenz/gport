@@ -3,7 +3,7 @@
 var http = require('http')
 
 /**
- * Quick and dirty way to find an open port number.
+ * Quick and dirty way to find an open port number on your localhost.
  * Super small as it doesn't include any huge dependencies like other port finder libs.
  * Inspired by https://gist.github.com/mikeal/1840641
  *
@@ -13,12 +13,10 @@ var http = require('http')
  * @param {Function} cb called back with the open port
  */
 module.exports = function getPort(port, cb) {
-  console.log('trying', port)
   var server = http.createServer()
   var success = false
 
   function onclose() {
-    console.log('closing')
     if (success) return cb(port)
     // we were able to listen, but another server is actually
     // listening on that port and responded to our request
