@@ -6,6 +6,14 @@ var http = require('http')
 var spawn = require('child_process').spawn
 var PORT = 6000
 
+test('\nno server listening - random port', function (t) {
+  getPort(check)
+  function check(port) {
+    t.ok(port > 0 , 'provides a random port')
+    t.end()
+  }
+})
+
 test('\nno server listening', function (t) {
   getPort(PORT, check)
   function check(port) {

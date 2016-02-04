@@ -9,31 +9,44 @@ var http = require('http')
  *
  * @name getPort
  * @function
- * @param {Number} port start port, will be increased until an open one is found
+ * @param {Number=} port start port, will be increased until an open one is
+ * found, when not supplied a random port will be used
  * @param {Function} cb called back with the open port
  */
 module.exports = function getPort(port, cb) {
+  if (typeof port === 'function') {
+    cb = port
+    // passing port 0 will cause Node.js to use a random port
+    port = 0
+  }
+
   var server = http.createServer()
   var success = false
   var random = Math.random()
+  var currentPort, nextPort
 
   function onclose() {
-    if (success) return cb(port)
+    if (success) return cb(currentPort)
     // we were able to listen, but another server is actually
     // listening on that port and responded to our request
-    getPort(port + 1, cb)
+    var next = nextPort || (currentPort && currentPort + 1) || 0
+    getPort(nextPort, cb)
   }
   function onerror(err) {
     // failed to connect, let's try another port
-    getPort(port + 1, cb)
+    var next = nextPort || (port && port + 1) || (currentPort && currentPort + 1) || 0
+    getPort(next, cb)
   }
 
   function onlistening() {
+    currentPort = server.address().port
+    nextPort = currentPort + 1
+
     // Somehow the server will listen even if the port is in use by another server,
     // i.e. if a SimpleHTTP Python server is listening on it.
     // Therefore we make sure that really it's our server that's listening
     // on this port by making a request and ensuring our server responds.
-    http.get('http://localhost:' + port, onresponse)
+    http.get('http://localhost:' + currentPort, onresponse)
     function onresponse(res) {
       success = res.headers && res.headers.server === 'GetPort-TestServer - ' + random
       // destroy connection, close server and thus trigger callback or another try

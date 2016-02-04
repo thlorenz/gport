@@ -5,15 +5,10 @@ Gets the next available port on your localhost starting from the given port numb
 ```js
 const getPort = require('gport')
 const http = require('http')
-const PORT = 6000
 
-// our port is busy now
-const s1 = http.createServer().listen(PORT)
-
-getPort(PORT, check)
+getPort(check)
 function check(port) {
-  console.log(port) // 6001
-  s1.close()
+  console.log(port) // some available port
 }
 ```
 
@@ -36,7 +31,7 @@ function check(port) {
 </div>
 <dl>
 <dt>
-<h4 class="name" id="getPort"><span class="type-signature"></span>getPort<span class="signature">(port, cb)</span><span class="type-signature"></span></h4>
+<h4 class="name" id="getPort"><span class="type-signature"></span>getPort<span class="signature">(<span class="optional">port</span>, cb)</span><span class="type-signature"></span></h4>
 </dt>
 <dd>
 <div class="description">
@@ -50,6 +45,7 @@ Inspired by https://gist.github.com/mikeal/1840641</p>
 <tr>
 <th>Name</th>
 <th>Type</th>
+<th>Argument</th>
 <th class="last">Description</th>
 </tr>
 </thead>
@@ -59,12 +55,18 @@ Inspired by https://gist.github.com/mikeal/1840641</p>
 <td class="type">
 <span class="param-type">Number</span>
 </td>
-<td class="description last"><p>start port, will be increased until an open one is found</p></td>
+<td class="attributes">
+&lt;optional><br>
+</td>
+<td class="description last"><p>start port, will be increased until an open one is
+found, when not supplied a random port will be used</p></td>
 </tr>
 <tr>
 <td class="name"><code>cb</code></td>
 <td class="type">
 <span class="param-type">function</span>
+</td>
+<td class="attributes">
 </td>
 <td class="description last"><p>called back with the open port</p></td>
 </tr>
