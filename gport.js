@@ -51,6 +51,6 @@ module.exports = function getPort(port, cb) {
     .on('listening', onlistening)
     .on('error', onerror)
     .on('request', onrequest)
-    .on('close', onclose)
+    .once('close', onclose)
     .listen(port)
 }
