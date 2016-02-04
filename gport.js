@@ -15,6 +15,7 @@ var http = require('http')
 module.exports = function getPort(port, cb) {
   var server = http.createServer()
   var success = false
+  var random = Math.random()
 
   function onclose() {
     if (success) return cb(port)
@@ -34,7 +35,7 @@ module.exports = function getPort(port, cb) {
     // on this port by making a request and ensuring our server responds.
     http.get('http://localhost:' + port, onresponse)
     function onresponse(res) {
-      success = res.headers && res.headers.server === 'GetPort-TestServer'
+      success = res.headers && res.headers.server === 'GetPort-TestServer - ' + random
       // destroy connection, close server and thus trigger callback or another try
       res.destroy()
       server.close()
@@ -43,7 +44,7 @@ module.exports = function getPort(port, cb) {
 
   function onrequest(req, res) {
     // send very specific header to identify our server
-    res.writeHead(200, { server: 'GetPort-TestServer' })
+    res.writeHead(200, { server: 'GetPort-TestServer - ' + random })
     res.end()
   }
 
