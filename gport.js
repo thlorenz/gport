@@ -30,7 +30,7 @@ module.exports = function getPort(port, cb) {
     // we were able to listen, but another server is actually
     // listening on that port and responded to our request
     var next = nextPort || (currentPort && currentPort + 1) || 0
-    getPort(nextPort, cb)
+    getPort(next, cb)
   }
   function onerror(err) {
     // failed to connect, let's try another port
